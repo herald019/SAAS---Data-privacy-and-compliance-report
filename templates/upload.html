@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Privacy and Compliance Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Data Privacy and Compliance Report</h1>
+    </header>
+
+    <main>
+        <form id="uploadForm" action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+            <div id="upload-container">
+                <div id="drop-area">
+                    <p>Drag & Drop CSV file here or click to select</p>
+                    <input type="file" id="fileInput" name="csvFile" accept=".csv" required hidden>
+                    <div id="file-preview"></div>  <!-- Preview Area -->
+                </div>
+            </div>
+            <button type="submit" id="uploadButton">Upload</button>
+        </form>
+    </main>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

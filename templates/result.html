@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result - Data Privacy and Compliance Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Banner -->
+    <header>
+        Data Privacy and Compliance Report
+    </header>
+
+    <!-- Result Container -->
+    <main id="result-container">
+        <h2>File has been scanned</h2>
+
+        <!-- Scanning Message -->
+        <p class="scan-message">Please wait, it will take several minutes to scan the data.</p>
+
+        <!-- Random Compliance Score -->
+        <div class="compliance-score-box">
+            Compliance Score: {{ compliance_score }}%
+        </div>
+
+        <!-- Graph Placeholder -->
+        <div class="graph-container">
+            <p>Graph will be displayed here</p>
+        </div>
+
+        <!-- Download Button -->
+        <div class="download-btn-container">
+            <a href="{{ pdf_url }}" class="btn" download>Download Report (PDF)</a>
+        </div>
+    </main>
+
+</body>
+</html>
