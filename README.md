@@ -2,7 +2,7 @@
 takes in data from users and checks for ppi, ccpa and gdpa policy guidelines using aws macie and aws s3
 
 
--> the front end it static since it needs to be hosted on ec2
+-> the front end is static since it needs to be hosted on ec2
 
 -> the upload page takes in a csv file and pushes it into aws s3 bucket
 
