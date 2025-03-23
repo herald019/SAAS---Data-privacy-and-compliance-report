@@ -1,40 +1,310 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Result - Data Privacy and Compliance Report</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Compliance Report</title>
+    <style>
+        :root {
+            /* Light theme variables */
+            --bg-color: #f9fafb;
+            --text-color: #333;
+            --heading-color: #2c3e50;
+            --border-color: #eaeaea;
+            --table-bg: white;
+            --table-alt-bg: #f8f9fa;
+            --table-hover-bg: #f1f4f9;
+            --header-bg: #1a73e8;
+            --header-text: white;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --button-bg: #1a73e8;
+            --button-hover: #1557b0;
+            --button-text: white;
+        }
+
+        [data-theme="dark"] {
+            /* Dark theme variables */
+            --bg-color: #1e1e2e;
+            --text-color: #e1e1e1;
+            --heading-color: #cdd6f4;
+            --border-color: #313244;
+            --table-bg: #181825;
+            --table-alt-bg: #1f1f2e;
+            --table-hover-bg: #2a2a40;
+            --header-bg: #74c7ec;
+            --header-text: #11111b;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --button-bg: #74c7ec;
+            --button-hover: #89dceb;
+            --button-text: #11111b;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            transition: all 0.3s ease;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        
+        h2 {
+            color: var(--heading-color);
+            margin: 0;
+        }
+        
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+        }
+        
+        .theme-toggle label {
+            margin-right: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 30px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: #74c7ec;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+        
+        .toggle-icons {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+            align-items: center;
+            height: 100%;
+            color: var(--header-text);
+            pointer-events: none;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            background-color: var(--table-bg);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        th {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 15px;
+            transition: all 0.3s ease;
+        }
+        
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        tr:nth-child(even) {
+            background-color: var(--table-alt-bg);
+        }
+        
+        tr:hover {
+            background-color: var(--table-hover-bg);
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        a {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--button-text);
+            background-color: var(--button-bg);
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        
+        a:hover {
+            background-color: var(--button-hover);
+            transform: translateY(-2px);
+        }
+        
+        @media screen and (max-width: 600px) {
+            .header-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .theme-toggle {
+                margin-top: 15px;
+            }
+            
+            table {
+                border: 0;
+                box-shadow: none;
+            }
+            
+            table thead {
+                display: none;
+            }
+            
+            table tr {
+                margin-bottom: 15px;
+                display: block;
+                border: 1px solid var(--border-color);
+                box-shadow: var(--shadow);
+                border-radius: 4px;
+                overflow: hidden;
+            }
+            
+            table td {
+                display: block;
+                text-align: right;
+                border-bottom: 1px solid var(--border-color);
+                position: relative;
+                padding-left: 45%;
+            }
+            
+            table td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 15px;
+                font-weight: 600;
+                color: var(--heading-color);
+            }
+            
+            table td:last-child {
+                border-bottom: 0;
+            }
+        }
+    </style>
 </head>
 <body>
-
-    <!-- Banner -->
-    <header>
-        Data Privacy and Compliance Report
-    </header>
-
-    <!-- Result Container -->
-    <main id="result-container">
-        <h2>File has been scanned</h2>
-
-        <!-- Scanning Message -->
-        <p class="scan-message">Please wait, it will take several minutes to scan the data.</p>
-
-        <!-- Random Compliance Score -->
-        <div class="compliance-score-box">
-            Compliance Score: {{ compliance_score }}%
+    
+  
+    <div class="header-container">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <h2>Compliance Report</h2>
+            <a href="/" class="active" style="
+                background-color: var(--button-bg);
+                color: var(--button-text);
+                border: none;
+                border-radius: 6px;
+                padding: 10px 20px;
+                font-size: 14px;
+                font-weight: 600;
+                text-decoration: none;
+                transition: all 0.3s ease;
+            ">
+                Upload New Data
+            </a>
         </div>
-
-        <!-- Graph Placeholder -->
-        <div class="graph-container">
-            <p>Graph will be displayed here</p>
+        <div class="theme-toggle">
+            <!-- Theme toggle stays the same -->
         </div>
+    </div>
+    
+    <table>
+        <tr>
+            <th>Field</th>
+            <th>Value</th>
+        </tr>
+        {% for key, value in compliance.items() %}
+        <tr>
+            <td data-label="Field">{{ key }}</td>
+            <td data-label="Value">{{ value }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    
+    <br>
+    <a href="{{ file_url }}" download>Download Full JSON Report</a>
 
-        <!-- Download Button -->
-        <div class="download-btn-container">
-            <a href="{{ pdf_url }}" class="btn" download>Download Report (PDF)</a>
-        </div>
-    </main>
-
+    <script>
+        // Theme toggle functionality
+        const themeSwitch = document.getElementById('theme-switch');
+        const htmlElement = document.documentElement;
+        
+        // Check for saved theme preference or use preferred color scheme
+        const savedTheme = localStorage.getItem('theme');
+        
+        if (savedTheme) {
+            htmlElement.setAttribute('data-theme', savedTheme);
+            themeSwitch.checked = savedTheme === 'dark';
+        } else {
+            // Use system preference as default
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (prefersDark) {
+                htmlElement.setAttribute('data-theme', 'dark');
+                themeSwitch.checked = true;
+            }
+        }
+        
+        // Theme switch event listener
+        themeSwitch.addEventListener('change', function() {
+            if (this.checked) {
+                htmlElement.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                htmlElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    </script>
 </body>
 </html>
